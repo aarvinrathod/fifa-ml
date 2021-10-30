@@ -1,0 +1,335 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
+    <meta name="description" content="" />
+    <meta name="author" content="" />
+    <title>FIFA22 Predicter</title>
+    <!-- Favicon-->
+    <link rel="icon" type="image/x-icon" href="../assets/favicon.ico" />
+    <!-- Core theme CSS (includes Bootstrap)-->
+    <link rel="stylesheet" type="text/css" href="../static/css/styles.css">
+    <!-- d3-->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/d3/5.7.0/d3.min.js"
+        integrity="sha512-L5K9Bf852XyB+wrvRFGwWzfhVI+TZqJlgwzX9yvrfhILuzIZfrcQO4au9D9eVDnkQ6oqYr9v2QwJdFo+eKE50Q=="
+        crossorigin="anonymous"></script>
+</head>
+
+<body>
+    <!-- Responsive navbar-->
+    <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+        <div class="container">
+            <a class="navbar-brand" href="#home">FIFA22 Predictor</a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse"
+                data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false"
+                aria-label="Toggle navigation"><span class="navbar-toggler-icon"></span></button>
+            <div class="collapse navbar-collapse" id="navbarSupportedContent">
+                <ul class="navbar-nav ms-auto mb-2 mb-lg-0" position="right">
+                    <li class="nav-item"><a class="nav-link active" aria-current="page" href="#home">Home</a></li>
+                    <li class="nav-item"><a class="nav-link" href="#attributes">Player Attributes</a></li>
+                    <li class="nav-item"><a class="nav-link" href="#results">Improvement</a></li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+    <!-- Header - set the background image for the header in the line below-->
+    <header id="home" class="py-5 bg-image-full"
+        style="background-image: url('https://images5.alphacoders.com/115/1156905.jpg')">
+        <div class="text-center my-5">
+            <img class="img-fluid rounded-circle mb-4"
+                src="https://image.api.playstation.com/vulcan/img/rnd/202109/0711/Ll6cMbKafPkcFD80tuy0BDGA.png"
+                alt="logo" height=50px />
+            <!-- <h1 class="text-white fs-3 fw-bolder">Machine Learning with FIFA 22</h1>-->
+            <!-- <p class="text-white-50 mb-0">Using Machine Learning to predict player worth</p> -->
+        </div>
+    </header>
+    <!-- Features section-->
+    <section id="attributes" class="py-5">
+        <!-- <form method='post' action='/predict' role='form'> -->
+            <div class="container my-5">
+                <div class="row justify-content-center">
+                    <div class="col-lg-12">
+                        <h2>Machine Learning with FIFA22</h2>
+                        <p></p>
+                        <br>
+                        <h5>Select Player:</h5>
+                        <p> </p>
+                        <select id="selDataset" onchange="optionChanged(this.value)"></select>
+                        <h5>Player's current Ratings based on 6 defining player attributes<h5>
+                                <p></p>
+                                <p></p>
+                                <div class="row">
+                                    <div class="col-lg-12">
+                                        <table class=darkTable style="width: 50%;" border="1" cellpadding="10"
+                                            align=center>
+                                            <tbody>
+                                                <tr>
+                                                    <td>Overall Rating</td>
+                                                    <td>
+                                                        <p id="old_overall_rating"></p>
+                                                    </td>
+                                                </tr>
+                                                <tr>
+                                                    <td>Value(Eur)</td>
+                                                    <td>
+                                                        <p id="old_value"></p>
+                                                    </td>
+                                                </tr>
+                                                <tr>
+                                                    <td>Wage(Eur)</td>
+                                                    <td>
+                                                        <p id="old_wage"></p>
+                                                    </td>
+                                                </tr>
+                                                <tr>
+                                                    <td>Release Clause</td>
+                                                    <td>
+                                                        <p id="old_release_clause"></p>
+                                                    </td>
+                                                </tr>
+                                            </tbody>
+                                        </table>
+
+                                    </div>
+                                    <p></p>
+                                    <h5>Update attributes below to use machine learning to predict Rating changes:</h5>
+                                    <p></p>
+                                    <div class="row">
+                                        <div class="col-md-2">
+                                            <div class="well">
+                                                <h5>Defending:</h5>
+                                                <select id="input_defend">
+                                                    <option value="0"> 0 </option>
+                                                    <option value="5"> 5 </option>
+                                                    <option value="10"> 10 </option>
+                                                    <option value="15"> 15 </option>
+                                                    <option value="20"> 20 </option>
+                                                    <option value="25"> 25 </option>
+                                                </select>
+                                            </div>
+                                        </div>
+                                        <div class="col-md-2">
+                                            <div class="well">
+                                                <h5>Composure:</h5>
+                                                <select id="input_composure">
+                                                    <option value="0"> 0 </option>
+                                                    <option value="5"> 5 </option>
+                                                    <option value="10"> 10 </option>
+                                                    <option value="15"> 15 </option>
+                                                    <option value="20"> 20 </option>
+                                                    <option value="25"> 25 </option>
+                                                </select>
+                                            </div>
+                                        </div>
+                                        <div class="col-md-2">
+                                            <div class="well">
+                                                <h5>Positioning:</h5>
+                                                <select id="input_position">
+                                                    <option value="0"> 0 </option>
+                                                    <option value="5"> 5 </option>
+                                                    <option value="10"> 10 </option>
+                                                    <option value="15"> 15 </option>
+                                                    <option value="20"> 20 </option>
+                                                    <option value="25"> 25 </option>
+                                                </select>
+                                            </div>
+                                        </div>
+                                        <div class="col-md-2">
+                                            <div class="well">
+                                                <h5>Ball Control:</h5>
+                                                <select id="input_ball">
+                                                    <option value="0"> 0 </option>
+                                                    <option value="5"> 5</option>
+                                                    <option value="10"> 10 </option>
+                                                    <option value="15"> 15 </option>
+                                                    <option value="20"> 20 </option>
+                                                    <option value="25"> 25 </option>
+                                                </select>
+                                            </div>
+                                        </div>
+                                        <div class="col-md-2">
+                                            <div class="well">
+                                                <h5>Pace Total:</h5>
+                                                <select id="input_pace">
+                                                    <option value="0"> 0 </option>
+                                                    <option value="5"> 5</option>
+                                                    <option value="10"> 10 </option>
+                                                    <option value="15"> 15 </option>
+                                                    <option value="20"> 20 </option>
+                                                    <option value="25"> 25 </option>
+                                                </select>
+                                            </div>
+                                        </div>
+                                        <div class="col-md-2">
+                                            <div class="well">
+                                                <h5>Short Passing:</h5>
+                                                <select id="input_pass">
+                                                    <option value="0"> 0 </option>
+                                                    <option value="5"> 5</option>
+                                                    <option value="10"> 10 </option>
+                                                    <option value="15"> 15 </option>
+                                                    <option value="20"> 20 </option>
+                                                    <option value="25"> 25 </option>
+                                                </select>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <p></p>
+                                    <div class="row">
+                                        <div class="col-md-12">
+                                            <button onclick='prediction()'>Predict</button>    
+                                        </div>
+                                        <p></p>
+                                        <div class="row">
+                                            <div class="col-lg-12">
+                                                <table class=darkTable style="width: 50%;" border="1" cellpadding="10"
+                                                    align=center>
+                                                    <tbody>
+                                                        <tr>
+                                                            <td>Overall Rating</td>
+                                                            <td>
+                                                                <p id='new_overall_rating'></p>
+                                                            </td>
+                                                        </tr>
+                                                        <tr>
+                                                            <td>Value(Eur)</td>
+                                                            <td>
+                                                                <p id='new_overall_value'></p>
+                                                            </td>
+                                                        </tr>
+                                                        <tr>
+                                                            <td>Wage(Eur)</td>
+                                                            <td>
+                                                                <p id='new_overall_wage'></p>
+                                                            </td>
+                                                        </tr>
+                                                        <tr>
+                                                            <td>Release Clause</td>
+                                                            <td>
+                                                                <p id='new_overall_release'></p>
+                                                            </td>
+                                                        </tr>
+                                                    </tbody>
+                                                </table>
+                                                <p></p>
+                                                <p></p>
+                                                <p></p>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                    </div>
+    </section>
+    <!-- Image element - set the background image for the header in the line below-->
+    <div class="py-5 bg-image-full"
+        style="background-image: url('https://www.upcomer.com/wp-content/uploads/2021/09/FIFA-22-New.jpg')">
+      
+        <div style="height: 35rem"></div>
+    </div>
+    <!-- Results section-->
+    <section id="results" class="py-5">
+        <div class="container my-5">
+            <div class="row justify-content-center">
+                <div class="col-lg-12">
+                    <h2>Want to Improve your Overall Ranking?</h2>
+                    <br>
+                    <p class="lead">Browse the attributes below to discover top ranking industry professionals to
+                        improve your skill!</p>
+                    <title>Bootstrap Example</title>
+                    <meta charset="utf-8">
+                    <meta name="viewport" content="width=device-width, initial-scale=1">
+                    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
+                    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+                    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
+                    </head>
+
+                    <body>
+
+                        <div class="container">
+                            <div class="row justify-content-center"></div>
+
+                            <div id="myCarousel" class="carousel slide" data-ride="carousel">
+                                <!-- Indicators -->
+                                <ol class="carousel-indicators">
+                                    <li data-target="#myCarousel" data-slide-to="0" class="active"></li>
+                                    <li data-target="#myCarousel" data-slide-to="1"></li>
+                                    <li data-target="#myCarousel" data-slide-to="2"></li>
+                                    <li data-target="#myCarousel" data-slide-to="3"></li>
+                                    <li data-target="#myCarousel" data-slide-to="4"></li>
+                                    <li data-target="#myCarousel" data-slide-to="5"></li>
+                                </ol>
+
+                                <!-- Wrapper for slides -->
+                                <div class="carousel-inner">
+                                    <div class="item active">
+                                        <center><img
+                                                src="https://github.com/bmshoemaker/images/blob/master/1.PNG?raw=true"
+                                                alt="1" style="width:50%;"></center>
+                                    </div>
+
+                                    <div class="item">
+                                        <center><img
+                                                src="https://github.com/bmshoemaker/images/blob/master/2.PNG?raw=true"
+                                                alt="2" style="width:50%;"></center>
+                                    </div>
+
+                                    <div class="item">
+                                        <center><img
+                                                src="https://github.com/bmshoemaker/images/blob/master/3.PNG?raw=true"
+                                                alt="3" style="width:50%;"></center>
+                                    </div>
+
+                                    <div class="item">
+                                        <center> <img
+                                                src="https://github.com/bmshoemaker/images/blob/master/4.PNG?raw=true"
+                                                alt="4" style="width:50%;"></center>
+                                    </div>
+
+                                    <div class="item">
+                                        <center> <img
+                                                src="https://github.com/bmshoemaker/images/blob/master/5.PNG?raw=true"
+                                                alt="5" style="width:50%;"></center>
+                                    </div>
+
+                                    <div class="item">
+                                        <center> <img
+                                                src="https://github.com/bmshoemaker/images/blob/master/6.PNG?raw=true"
+                                                alt="6" style="width:50%;"></center>
+                                    </div>
+                                </div>
+
+                                <!-- Left and right controls -->
+                                <a class="left carousel-control" href="#myCarousel" data-slide="prev">
+                                    <span class="glyphicon glyphicon-chevron-left"></span>
+                                    <span class="sr-only">Previous</span>
+                                </a>
+                                <a class="right carousel-control" href="#myCarousel" data-slide="next">
+                                    <span class="glyphicon glyphicon-chevron-right"></span>
+                                    <span class="sr-only">Next</span>
+                                </a>
+                            </div>
+                        </div>
+                        <p> *Disclaimer: Model does not change related attributes when individual attributes are changed
+                        </p>
+                    </body>
+
+</html>
+
+</section>
+<!-- Footer-->
+<footer class="py-5 bg-dark">
+    <div class="container">
+        <p class="m-0 text-center text-white">Copyright &copy; Aarvin, Lydia, Emily, Julie, & Breckin Inc.</p>
+    </div>
+</footer>
+<!-- Bootstrap core JS-->
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"></script>
+<!-- Core theme JS-->
+<script src="../static/js/scripts.js"></script>
+<!-- Players JS-->
+<script src="../static/js/app.js"></script>
+</body>
+
+</html>
