@@ -2,10 +2,11 @@ from flask import Flask, render_template, jsonify, redirect, request
 import pickle
 import numpy as np
 import pymongo
-from password import password
+# from password import password
 import certifi
+import os
 
-
+password=os.environ.get('password')
 ca=certifi.where()
 conn = f'mongodb+srv://aarvin:{password}@cluster0.j8pgj.mongodb.net/myFirstDatabase?retryWrites=true&w=majority'
 client = pymongo.MongoClient(conn, tlsCAFile=ca)
